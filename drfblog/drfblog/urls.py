@@ -13,8 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include, re_path
 
 from posts.views import PostList, PostUpdate, PostDestroy
 
@@ -23,4 +24,7 @@ urlpatterns = [
     path('api/posts/', PostList.as_view()),
     path('api/posts/<int:pk>/', PostUpdate.as_view()),
     path('api/postsdelete/<int:pk>/', PostDestroy.as_view()),
+    path('api/blog-auth/', include('rest_framework.urls')),
+    path('api/auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]
